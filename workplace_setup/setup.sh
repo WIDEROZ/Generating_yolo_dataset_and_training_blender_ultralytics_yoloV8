@@ -1,5 +1,6 @@
-
 #!/bin/bash
+
+SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 
 BLENDER_DOWNLOAD_LINK="https://download.blender.org/release/Blender3.6/blender-3.6.17-linux-x64.tar.xz"
 CURRENT_DIR=$(pwd)
@@ -60,6 +61,16 @@ python3 -m pip install ultralytics || { echo "Failed to install ultralytics" >&2
 
 echo "Ultralytics installation completed successfully"
 
+# Create a file in order to open blender in the workspace
+cat > "$SCRIPT_DIR/venv/bin/blender" << 'EOF'
+#!/bin/bash
+
+SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+
+"$SCRIPT_DIR/../../blender-3.6.17-linux-x64/blender"
+EOF
+
+chmod +x "$SCRIPT_DIR/venv/bin/blender"
 
 
 echo "oppenning blender..."
